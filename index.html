@@ -1,287 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Password Generator</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(145deg, #2d3748, #4a5568);
-            margin: 0;
-            padding: 10px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px; /* Reduced from 520px */
-            background: #1a202c;
-            padding: 1.5rem; /* Reduced padding */
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-3px);
-        }
-
-        h1 {
-            margin-bottom: 1.2rem; /* Reduced margin */
-            color: #e2e8f0;
-            font-size: 1.5rem; /* Slightly smaller */
-            font-weight: 600;
-        }
-
-        .options {
-            display: grid;
-            gap: 0.8rem; /* Reduced gap */
-            margin-bottom: 1.2rem; /* Reduced margin */
-        }
-
-        .option-row {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.4rem;
-            transition: background 0.2s ease;
-        }
-
-        .option-row:hover {
-            background: #2d3748;
-            border-radius: 6px;
-        }
-
-        input[type="number"] {
-            width: 60px; /* Reduced width */
-            padding: 0.5rem;
-            border: 1px solid #4a5568;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            background: #2d3748;
-            color: #e2e8f0;
-            transition: border-color 0.2s ease;
-        }
-
-        input[type="number"]:focus {
-            border-color: #63b3ed;
-            outline: none;
-        }
-
-        input[type="checkbox"] {
-            width: 1.1rem; /* Slightly smaller */
-            height: 1.1rem;
-            accent-color: #63b3ed;
-            cursor: pointer;
-        }
-
-        label {
-            color: #cbd5e0;
-            font-size: 0.95rem; /* Slightly smaller */
-        }
-
-        .main-btn {
-            background: #63b3ed;
-            color: #1a202c;
-            border: none;
-            padding: 0.8rem; /* Reduced padding */
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem; /* Slightly smaller */
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 1rem; /* Reduced margin */
-        }
-
-        .main-btn:hover {
-            background: #4299e1;
-            box-shadow: 0 4px 12px rgba(99, 179, 237, 0.3);
-        }
-
-        .main-btn:active {
-            transform: scale(0.98);
-        }
-
-        .password-section {
-            margin-top: 1rem; /* Reduced margin */
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-            background: #2d3748;
-            padding: 0.6rem;
-            border-radius: 6px;
-            border: 1px solid #4a5568;
-        }
-
-        #password {
-            font-family: 'Courier New', monospace;
-            font-size: 1rem; /* Slightly smaller */
-            word-break: break-all;
-            margin: 0;
-            color: #e2e8f0;
-            flex-grow: 1;
-        }
-
-        .copy-btn {
-            background: #ed64a6;
-            color: #fff;
-            border: none;
-            padding: 0.6rem 1.2rem; /* Reduced padding */
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem; /* Slightly smaller */
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #d53f8c;
-            box-shadow: 0 4px 12px rgba(237, 100, 166, 0.3);
-        }
-
-        .strength-meter {
-            margin-top: 0.8rem; /* Reduced margin */
-            padding: 0.5rem;
-            border-radius: 6px;
-            font-weight: 500;
-            text-align: center;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .weak {
-            background: #c53030;
-        }
-
-        .medium {
-            background: #d97706;
-        }
-
-        .strong {
-            background: #276749;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cipher — Password Forge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Password Generator</h1>
-        <div class="options">
-            <div class="option-row">
-                <label for="length">Length:</label>
-                <input type="number" id="length" min="8" max="64" value="12">
-            </div>
-            <div class="option-row">
-                <input type="checkbox" id="uppercase" checked>
-                <label for="uppercase">Include Uppercase Letters</label>
-            </div>
-            <div class="option-row">
-                <input type="checkbox" id="lowercase" checked>
-                <label for="lowercase">Include Lowercase Letters</label>
-            </div>
-            <div class="option-row">
-                <input type="checkbox" id="numbers" checked>
-                <label for="numbers">Include Numbers</label>
-            </div>
-            <div class="option-row">
-                <input type="checkbox" id="symbols" checked>
-                <label for="symbols">Include Symbols</label>
-            </div>
-        </div>
-        <button class="main-btn" onclick="generatePassword()">Generate Password</button>
-        <div class="password-section">
-            <p id="password">Click generate to create password</p>
-            <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
-        </div>
-        <div id="strength-meter" class="strength-meter"></div>
+
+<main class="card">
+
+  <header class="card__header">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="9" y="18" width="22" height="16" rx="2.5" class="mark__body"/>
+      <path d="M13 18 V13 a7 7 0 0 1 14 0 v5" class="mark__shackle"/>
+      <circle cx="20" cy="25" r="2.6" class="mark__pin"/>
+      <line x1="20" y1="27.2" x2="20" y2="30.5" class="mark__pin"/>
+    </svg>
+    <div class="titles">
+      <h1>Cipher</h1>
+      <p class="subtitle">Password forge</p>
+    </div>
+  </header>
+
+  <div class="mode-switch" role="tablist" aria-label="Generation mode">
+    <button type="button" class="mode-btn is-active" id="modeRandomBtn" role="tab" aria-selected="true" aria-controls="panelRandom">Random</button>
+    <button type="button" class="mode-btn" id="modePassphraseBtn" role="tab" aria-selected="false" aria-controls="panelPassphrase">Passphrase</button>
+    <span class="mode-switch__thumb" aria-hidden="true"></span>
+  </div>
+
+  <section class="panel" id="panelRandom">
+    <div class="field">
+      <div class="field__row">
+        <label for="length">Length</label>
+        <output id="lengthValue" for="length">16</output>
+      </div>
+      <input type="range" id="length" min="8" max="64" value="16">
     </div>
 
-    <script>
-        function generatePassword() {
-            const length = parseInt(document.getElementById('length').value);
-            const useUppercase = document.getElementById('uppercase').checked;
-            const useLowercase = document.getElementById('lowercase').checked;
-            const useNumbers = document.getElementById('numbers').checked;
-            const useSymbols = document.getElementById('symbols').checked;
+    <fieldset class="toggles">
+      <legend class="sr-only">Character sets</legend>
 
-            if (length < 8 || length > 64) {
-                alert('Please choose a length between 8 and 64 characters');
-                return;
-            }
+      <label class="toggle">
+        <input type="checkbox" id="uppercase" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Uppercase <em>A–Z</em></span>
+      </label>
 
-            if (!useUppercase && !useLowercase && !useNumbers && !useSymbols) {
-                alert('Please select at least one character type');
-                return;
-            }
+      <label class="toggle">
+        <input type="checkbox" id="lowercase" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Lowercase <em>a–z</em></span>
+      </label>
 
-            const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-            const numbers = "0123456789";
-            const lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
-            const upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      <label class="toggle">
+        <input type="checkbox" id="numbers" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Numbers <em>0–9</em></span>
+      </label>
 
-            let allowedChars = '';
-            let password = '';
-            
-            if (useSymbols) allowedChars += symbols;
-            if (useNumbers) allowedChars += numbers;
-            if (useLowercase) allowedChars += lowerCaseLetters;
-            if (useUppercase) allowedChars += upperCaseLetters;
+      <label class="toggle">
+        <input type="checkbox" id="symbols" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Symbols <em>!@#$%</em></span>
+      </label>
 
-            if (useSymbols) password += symbols.charAt(Math.floor(Math.random() * symbols.length));
-            if (useNumbers) password += numbers.charAt(Math.floor(Math.random() * numbers.length));
-            if (useLowercase) password += lowerCaseLetters.charAt(Math.floor(Math.random() * lowerCaseLetters.length));
-            if (useUppercase) password += upperCaseLetters.charAt(Math.floor(Math.random() * upperCaseLetters.length));
+      <label class="toggle">
+        <input type="checkbox" id="excludeAmbiguous">
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Exclude ambiguous <em>0 O 1 l I</em></span>
+      </label>
+    </fieldset>
 
-            while (password.length < length) {
-                password += allowedChars.charAt(Math.floor(Math.random() * allowedChars.length));
-            }
+    <div class="field">
+      <label for="customExclude">Custom exclusions</label>
+      <input type="text" id="customExclude" placeholder="e.g. { } ` ~" autocomplete="off" spellcheck="false">
+    </div>
+  </section>
 
-            password = password.split('').sort(() => 0.5 - Math.random()).join('');
+  <section class="panel" id="panelPassphrase" hidden>
+    <div class="field">
+      <div class="field__row">
+        <label for="wordCount">Words</label>
+        <output id="wordCountValue" for="wordCount">5</output>
+      </div>
+      <input type="range" id="wordCount" min="3" max="8" value="5">
+    </div>
 
-            document.getElementById('password').textContent = password;
-            updateStrengthMeter(password);
-        }
+    <div class="field">
+      <label for="separator">Separator</label>
+      <select id="separator">
+        <option value="-">hyphen ( - )</option>
+        <option value="_">underscore ( _ )</option>
+        <option value=".">dot ( . )</option>
+        <option value=" ">space</option>
+        <option value="">none</option>
+      </select>
+    </div>
 
-        function updateStrengthMeter(password) {
-            const strengthMeter = document.getElementById('strength-meter');
-            let strength = 0;
+    <fieldset class="toggles">
+      <legend class="sr-only">Passphrase options</legend>
 
-            if (password.length >= 12) strength += 2;
-            else if (password.length >= 8) strength += 1;
+      <label class="toggle">
+        <input type="checkbox" id="capitalize" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Capitalize words</span>
+      </label>
 
-            if (/[A-Z]/.test(password)) strength += 1;
-            if (/[a-z]/.test(password)) strength += 1;
-            if (/[0-9]/.test(password)) strength += 1;
-            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+      <label class="toggle">
+        <input type="checkbox" id="appendNumber" checked>
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span class="toggle__label">Append number</span>
+      </label>
+    </fieldset>
+  </section>
 
-            if (strength >= 5) {
-                strengthMeter.textContent = 'Strong Password';
-                strengthMeter.className = 'strength-meter strong';
-            } else if (strength >= 3) {
-                strengthMeter.textContent = 'Medium Password';
-                strengthMeter.className = 'strength-meter medium';
-            } else {
-                strengthMeter.textContent = 'Weak Password';
-                strengthMeter.className = 'strength-meter weak';
-            }
-        }
+  <p class="error" id="errorMsg" hidden></p>
 
-        function copyToClipboard() {
-            const password = document.getElementById('password').textContent;
-            navigator.clipboard.writeText(password).then(() => {
-                const copyBtn = document.querySelector('.copy-btn');
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyBtn.textContent = 'Copy';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                alert('Failed to copy password to clipboard');
-            });
-        }
-    </script>
+  <button type="button" class="forge-btn" id="generateBtn">
+    <span class="forge-btn__label">Forge password</span>
+  </button>
+
+  <div class="output">
+    <div class="output__display" id="passwordDisplay" aria-live="polite">
+      <span class="output__placeholder">Press forge to begin</span>
+    </div>
+    <button type="button" class="copy-btn" id="copyBtn" aria-label="Copy password" disabled>
+      <svg viewBox="0 0 20 20" class="copy-btn__icon" id="copyIcon" aria-hidden="true">
+        <rect x="7" y="7" width="10" height="10" rx="1.5"/>
+        <path d="M4.5 12.5h-1a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v1"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="strength" id="strength" hidden>
+    <svg class="dial" viewBox="0 0 120 68">
+      <path class="dial__track" d="M10 62 A50 50 0 0 1 110 62"/>
+      <path class="dial__fill" id="dialFill" d="M10 62 A50 50 0 0 1 110 62"/>
+    </svg>
+    <div class="strength__info">
+      <span class="strength__label" id="strengthLabel">—</span>
+      <span class="strength__bits" id="strengthBits">0 bits of entropy</span>
+    </div>
+  </div>
+
+  <div class="history" id="history" hidden>
+    <h2>Recent forges</h2>
+    <ul class="history__list" id="historyList"></ul>
+  </div>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
